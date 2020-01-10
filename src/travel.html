@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Webpage title -->
-    <title>He Yingxu</title>
+    <title>Travel</title>
 
-    <!-- Character setting, icon setting and mobile compatibility. -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
@@ -41,24 +39,6 @@
     <!-- Chrome can use this to set background color. -->
     <meta name="theme-color" content="#ededed" />
 
-    <!-- Information for search engine -->
-    <meta name="description" content="This is He Yingxu's Personal Website" />
-    <meta name="keywords" content="Yingxu, He Yingxu,NUS,Business Analytics,Business Analyst, BA, Data Analyst" />
-    <meta name="author" content="He Yingxu" />
-    <meta name="google-site-verification" content="hNukwD7extKWFFYeP7Bu4Pn_9ClU8q3fMKyQCcT-wQU" />
-
-    <!-- Google Analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-XXXXX-Y', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- End Google Analytics -->
-
     <!-- Bootstrap theme - Bootswatch Readable -->
     <link
       rel="stylesheet"
@@ -85,16 +65,23 @@
       crossorigin="anonymous"
     ></script>
 
-    <!-- Customize css file. -->
-    <link rel="stylesheet" href="assets/style.css" />
-
-    <!-- Place your kit's code here -->
-    <script src="https://kit.fontawesome.com/796eda8e40.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+    <!-- <script src="jquery-3.4.1.js"></script> -->
+    <script
+      src="https://code.jquery.com/jquery-1.12.4.js"
+      integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+      crossorigin="anonymous"></script>
+    <script src="jquery-jvectormap-2.0.3.min.js"></script>
+    <script src="jquery-jvectormap-world-mill.js"></script>
+    <script src="jquery-jvectormap-cn-mill.js"></script>
+    <script src="visit_freq.js"></script>
+    <!-- <script src="jquery-jvectormap-world-mill_1.js"></script> -->
   </head>
+
   <body>
     <div class="bg-img">
       <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
-        <a class="navbar-brand" href="index.html">He Yingxu</a>
+        <a class="navbar-brand" href="../index.html">He Yingxu</a>
         <div class="navbar-header">
           <!-- shown on small screens -->
           <button
@@ -112,8 +99,8 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="index.html">Home</a>
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Projects</a>
@@ -121,8 +108,8 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Experience</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="src/travel.html">Travel</a>
+            <li class="nav-item active">
+              <a class="nav-link" href="travel.html">Travel</a>
             </li>
           </ul>
         </div>
@@ -130,48 +117,48 @@
     </div>
     <br /><br /><br />
 
-    <div class="container">
-      <div class="row">
-        <!-- <div class="col-lg-1"></div> -->
-        <div class="col-lg-5">
-          <figure class="resize-image image-fluid">
-          <img
-            src="img/avator.png"
-            alt="photo"
-            class="d-block cropped"
-          />
-        </figure>
-        </div>
-        <div class="col-lg-1"></div>
-        <!-- <div class="col-lg-3" /> -->
-        <div class="homepage-textcol-lg-5">
-          <br /><br /><br /><br /><br />
-          <div class="homepage-intro">
-            <h1>Hi, I'm He Yingxu.</h1>
-            <br />
-            <p>
-              Business Analyst Undergraduate
-              <br />at the National University of Singapore
-            </p>
-          </div>
+    <div style="width: 600px; height: 400px; margin: 0 auto;">
+    <div id="world-map" style="width: 600px; height: 400px;"></div>
+    <script>
+      // $(function(){
+      //   $('#world-map').vectorMap({
+      //     map: 'world_mill',
+      //     series: {
+      //       regions: [{
+      //         values: freqData,
+      //         scale: ['#C8EEFF', '#0071A4'],
+      //         normalizeFunction: 'polynomial'
+      //       }]
+      //     },
+      //     onRegionTipShow: function(e, el, code){
+      //       el.html(el.html()+' (Frequency - '+freqData[code]+')');
+      //     }
+      //   });
+      // });
 
-          <!-- <hr /> -->
-        </div>
-
-      </div>
+      $(function(){
+        new jvm.MultiMap({
+          container: $('#world-map'),
+          maxLevel: 1,
+          main: {
+            map: 'world_mill',
+            series: {
+              regions: [{
+                values: freqData,
+                scale: ['#C8EEFF', '#0071A4'],
+                normalizeFunction: 'polynomial'
+              }]
+            },
+            onRegionTipShow: function(e, el, code){
+              el.html(el.html()+' (Frequency - '+freqData[code]+')');
+            }
+          },
+          mapUrlByCode: function(code, multiMap){
+            return 'jquery-jvectormap-cn'+'-mill.js';
+          }
+        });
+      });
+    </script>
     </div>
-    <br />
-
-    <footer>
-      <br />
-      <div class="contact-icons">
-        <br/ >
-        <a href="https://www.linkedin.com/in/yingxu-he-855088140/" title="Linkedin" class="fab fa-linkedin-in fa-2x"></a>
-        <a href="https://www.instagram.com/braddyhe/"  title="Instagram" class="fab fa-instagram fa-2x"></a>
-        <a href="https://github.com/YingxuH?tab=repositories" title="Github" class="fab fa-github-alt fa-2x"></a>
-        <a href="mailto:yingxu.he1998@gmail.com" title="Email" class="far fa-envelope fa-2x"></a>
-      </div>
-    </footer>
-
   </body>
 </html>
