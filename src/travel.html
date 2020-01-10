@@ -71,11 +71,24 @@
       src="https://code.jquery.com/jquery-1.12.4.js"
       integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
       crossorigin="anonymous"></script>
-    <script src="jquery-jvectormap-2.0.3.min.js"></script>
-    <script src="jquery-jvectormap-world-mill.js"></script>
-    <script src="jquery-jvectormap-cn-mill.js"></script>
+    <script src="https://cdn.anychart.com/maps-data/ACME_sales_in_China_Regions_general_data.js"></script>
+    <script src="https://cdn.anychart.com/maps-data/ACME_sales_in_China_Regions_regions_data.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js?hcode=c11e6e3cfefb406e8ce8d99fa8368d33"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js?hcode=c11e6e3cfefb406e8ce8d99fa8368d33"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js?hcode=c11e6e3cfefb406e8ce8d99fa8368d33"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-map.min.js?hcode=c11e6e3cfefb406e8ce8d99fa8368d33"></script>
+    <script src="https://cdn.anychart.com/geodata/2.0.0/countries/china/china.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/themes/light_earth.min.js"></script>
+    <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css?hcode=c11e6e3cfefb406e8ce8d99fa8368d33" type="text/css" rel="stylesheet">
+    <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css?hcode=c11e6e3cfefb406e8ce8d99fa8368d33" type="text/css" rel="stylesheet">
+
     <script src="visit_freq.js"></script>
-    <!-- <script src="jquery-jvectormap-world-mill_1.js"></script> -->
+
+      <!-- Customize css file. -->
+    <link rel="stylesheet" href="../assets/style.css" />
   </head>
 
   <body>
@@ -117,48 +130,149 @@
     </div>
     <br /><br /><br />
 
-    <div style="width: 600px; height: 400px; margin: 0 auto;">
-    <div id="world-map" style="width: 600px; height: 400px;"></div>
+    <div id="container" style="width: 1200px; height: 500px; margin: 0 auto;"></div>
     <script>
+      var generateData, getData;
+
+      anychart.onDocumentReady(function () {
+      	// set chart theme
+      anychart.theme('lightEarth');
+      var preloader = anychart.ui.preloader();
+      preloader.render(document.getElementById('container'));
+
+      var map = anychart.map();
+
+      map.unboundRegions()
+              .enabled(true)
+              .fill('#E1E1E1')
+              .stroke('#D2D2D2');
+
+      // sets geo data
+      map.geoData('anychart.maps.china');
+
+      // sets title settings
+      map.title()
+              .useHtml(true)
+              .enabled(true)
+              .padding([0, 0, 20, 0])
+              .text('Travelling frequency indicated by color. <br/><span style="color:#212121; font-size: 13px;">' +
+                      '<br> To drill up Press Backspace button or use context menu</span>');
+
+      var menu = map.contextMenu();
+      // add item DrillUp for context menu
+      menu.itemsFormatter(function (items) {
+          var path = map.getDrilldownPath();
+
+          items['drill-up'] = {
+              'index': 0,
+              'text': 'Drill Up',
+              'action': function () {
+                  map.drillUp();
+              }
+          };
+
+          path.length <= 1 ? items['drill-up'].enabled = false : items['drill-up'].enabled = true;
+
+          return items
+      });
+
+      // sets settings for map chart
+      map.padding([10, 10, 10, 10]);
+      map.interactivity().selectionMode('none');
+
+      var series = map.choropleth(general_freq)
+              .stroke('#CBE1F2')
+              .colorScale(anychart.scales.linearColor('#CBE1F2', '#67A0CB', '#226BA4', '#044E86'));
+      series.tooltip()
+              .enabled(true)
+              .useHtml(true)
+              .padding([8, 13, 10, 13])
+              .fontSize(13)
+              .titleFormat(function () {
+                  return this.getData('name');
+              })
+              .format(function () {
+                  return '<span style="font-size: 12px; color: #cbcbcb">Frequency: </span> ' +
+                          this.getData("value") + '<span style="font-size: 12px; color: #cbcbcb"></span>';
+              });
+
+      map.colorRange(true);
+
+      // create zoom controls
+      var zoomController = anychart.ui.zoom();
+      zoomController.render(map);
+
+      map.container('container');
+
+      map.draw();
+
+      map.listen('pointClick', function (evt) {
+          var point = evt.point;
+          var id = point.get('id');
+          var name = point.get('name');
+          var url_name = point.get('name').toLowerCase().replace(/\s/g, '_');
+
+          if (regions_freq[id]) {
+              var url = 'https://cdn.anychart.com/geodata/2.0.0/china_areas/' + url_name + '/' + url_name + '.js';
+              $.ajax({
+                  type: 'GET',
+                  url: url,
+                  dataType: 'script',
+                  beforeSend: function () {
+                      preloader.visible(true);
+                  },
+                  success: function () {
+                      var geoData = 'anychart.maps.' + url_name;
+                      var drillMap = anychart.map();
+                      var drillDownTitle = 'Traveling Frequency in <span style="color:#212121; font-weight: bold">' + name + '</span><br/><span style="color:#212121; font-size: 13px;"><br> To drill up Press Backspace button or use context menu</span>';
+                      drillMap.padding([10, 10, 10, 10]);
+                      drillMap.title().enabled(true).padding([0, 0, 20, 0]).useHtml(true).text(drillDownTitle);
+                      drillMap.geoData(geoData);
+
+                      var dataSet = anychart.data.set(regions_freq[id]).mapAs();
+                      var series = drillMap.choropleth(dataSet);
+                      series.stroke('#CBE1F2')
+                      series.colorScale(anychart.scales.linearColor('#CBE1F2', '#67A0CB', '#226BA4', '#044E86'));
+                      series.tooltip().titleFormat(function () {
+                          return this.getData('name');
+                      });
+                      series.tooltip().enabled(true).useHtml(true).padding([8, 13, 10, 13]).fontSize(13).format(function () {
+                          return '<span style="font-size: 12px; color: #cbcbcb">Frequency: </span> ' + this.getData("value") + '<span style="font-size: 12px; color: #cbcbcb"></span>';
+                      });
+                      map.drillTo(id, drillMap);
+                      preloader.visible(false);
+                  },
+                  error: function (data) {
+                      console.log('Error: ', data);
+                  }
+                });
+              }
+          });
+      });
+
       // $(function(){
-      //   $('#world-map').vectorMap({
-      //     map: 'world_mill',
-      //     series: {
-      //       regions: [{
-      //         values: freqData,
-      //         scale: ['#C8EEFF', '#0071A4'],
-      //         normalizeFunction: 'polynomial'
-      //       }]
+      //   new jvm.MultiMap({
+      //     container: $('#world-map'),
+      //     maxLevel: 1,
+      //     main: {
+      //       map: 'world_mill',
+      //       backgroundColor: '#a5bfdd',
+      //       series: {
+      //         regions: [{
+      //           values: freqData,
+      //           scale: ['#C8EEFF', '#0071A4'],
+      //           normalizeFunction: 'polynomial'
+      //         }]
+      //       },
+      //       onRegionTipShow: function(e, el, code){
+      //         el.html(el.html()+' (Frequency - '+freqData[code]+')');
+      //       }
       //     },
-      //     onRegionTipShow: function(e, el, code){
-      //       el.html(el.html()+' (Frequency - '+freqData[code]+')');
+      //     mapUrlByCode: function(code, multiMap){
+      //       return 'jquery-jvectormap-cn'+'-mill.js';
       //     }
       //   });
       // });
-
-      $(function(){
-        new jvm.MultiMap({
-          container: $('#world-map'),
-          maxLevel: 1,
-          main: {
-            map: 'world_mill',
-            series: {
-              regions: [{
-                values: freqData,
-                scale: ['#C8EEFF', '#0071A4'],
-                normalizeFunction: 'polynomial'
-              }]
-            },
-            onRegionTipShow: function(e, el, code){
-              el.html(el.html()+' (Frequency - '+freqData[code]+')');
-            }
-          },
-          mapUrlByCode: function(code, multiMap){
-            return 'jquery-jvectormap-cn'+'-mill.js';
-          }
-        });
-      });
     </script>
-    </div>
   </body>
 </html>
