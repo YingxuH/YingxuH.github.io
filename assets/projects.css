@@ -1,16 +1,18 @@
+a {
+  color: black;
+}
+
 .main {
-  height: 500px;
+  height: 100%;
   width: 80%;
   margin: 10px auto;
 }
 
-.content-div {
+.card {
   background-color: white;
-  border-radius: 1%;
-  border-style: solid;
-  border-width: 1px;
-  border-color: gray;
+  border-radius: 0.5%;
   float: left;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 #side-list {
