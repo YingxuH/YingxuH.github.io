@@ -12,31 +12,31 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
-    <link rel="shortcut icon" sizes="48x48" href="img/favicon.ico" />
+    <link rel="shortcut icon" sizes="48x48" href="../img/favicon.ico" />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="img/apple-touch-icon.png"
+      href="../image/apple-touch-icon.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="img/apple-touch-icon.png"
+      href="../img/apple-touch-icon.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="512x512"
-      href="android-chrome-512x512.png"
+      href="../img/android-chrome-512x512.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="192x192"
-      href="android-chrome-192x192.png"
+      href="../img/android-chrome-192x192.png"
     />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png" />
 
     <!-- Chrome can use this to set background color. -->
     <meta name="theme-color" content="#E9EBEE" />
@@ -81,6 +81,7 @@
     <script src="https://kit.fontawesome.com/796eda8e40.js" crossorigin="anonymous"></script>
   </head>
   <body>
+
     <div class="bg-img">
       <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
         <a class="navbar-brand" href="index.html">He Yingxu</a>
@@ -127,7 +128,9 @@
           </div>
           <ul class="sidebar-navigation">
             <li class="header">Projects</li>
-            <li><a href="https://github.com/YingxuH/Web-Minning-Projects">NLP and Humor</a></li>
+            <li class="active">
+              <a href="https://github.com/YingxuH/Web-Minning-Projects">NLP and Humor</a>
+            </li>
             <li><a href="https://github.com/YingxuH/FranceEconomyAnalysis">France Economy Analysis</a></li>
             <li><a href="#">Data De-identification Application</a></li>
             <li><a href="https://github.com/YingxuH/AchievePal">Web-Dev: AchievePal</a></li>
@@ -139,7 +142,50 @@
         </div>
 
         <div class="card" id="details">
-
+          <div class="post-content">
+            <p>A promise is an object that may produce a single value some time in the future: either a resolved value, or a reason that it’s not resolved (e.g., a network error occurred). A promise may be in one of 3 possible states: fulfilled, rejected, or pending. Promise users can attach callbacks to handle the fulfilled value or the reason for rejection.</p>
+            <p>Promises are eager, meaning that a promise will start doing whatever task you give it as soon as the promise constructor is invoked. If you need lazy, check out observables or tasks.</p>
+            <ol>
+            <li>List item</li>
+            </ol>
+            <p>Promise rules:</p>
+            <ul>
+            <li>A promise or “thenable” is an object that supplies a standard-compliant .then() method.</li>
+            <li>A pending promise may transition into a fulfilled or rejected state.</li>
+            <li>A fulfilled or rejected promise is settled, and must not transition into any other state.</li>
+            <li>Once a promise is settled, it must have a value (which may be undefined). That value must not change.</li>
+            <li>Every promise must supply a .then() method with the following signature:<br>
+            <code>promise.then( onFulfilled?: Function, onRejected?: Function ) =&gt; Promise</code></li>
+            <li>Both onFulfilled() and onRejected() are optional.</li>
+            <li>If the arguments supplied are not functions, they must be ignored.</li>
+            <li>onFulfilled() will be called after the promise is fulfilled, with the promise’s value as the first argument.</li>
+            <li>onRejected() will be called after the promise is rejected, with the reason for rejection as the first argument. The reason may be any valid JavaScript value, but because rejections are essentially synonymous with exceptions, I recommend using Error objects.</li>
+            <li>Neither onFulfilled() nor onRejected() may be called more than once.</li>
+            <li>then() may be called many times on the same promise. In other words, a promise can be used to aggregate callbacks.</li>
+            <li>.then() must return a new promise, promise2.</li>
+            </ul>
+            <p>AJAX call packages</p>
+            <p>JQuery.ajax()</p>
+            <ul>
+            <li>only push and get request</li>
+            </ul>
+            <p>XMLHTTPRequest</p>
+            <p>Axios</p>
+            <ul>
+            <li>promise based</li>
+            <li>Able to cancel a request</li>
+            <li>Provide upload progress tool</li>
+            <li>Multiple get requests</li>
+            </ul>
+            <p>Fetch</p>
+            <ul>
+            <li>promise based</li>
+            </ul>
+            <p>Superagent</p>
+            <ul>
+            <li>promise based</li>
+            </ul>
+          </div>
         </div>
 
       </div>

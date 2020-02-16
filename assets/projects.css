@@ -57,12 +57,3 @@ a {
   padding: 10px 15px 10px 30px;
   display: block;
 }
-
-.post-content {
-  overflow: auto;
-  padding: 20px;
-  color: #444;
-  font-family: Something, 'Something Else', sans-serif; /* Depends on the project */
-  font-size: 1em;
-  line-height: 1.5em;
-}
