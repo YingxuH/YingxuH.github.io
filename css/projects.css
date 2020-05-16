@@ -9,6 +9,10 @@ a {
   margin-bottom: 10px;
 }
 
+.badge {
+  float: right;
+}
+
 .main {
   height: 100%;
   width: 70%;
@@ -50,7 +54,6 @@ a {
 .header {
   font-size: 16px;
   text-transform: uppercase;
-  padding: 10px 15px 10px 30px;
 }
 
 .header-top {
