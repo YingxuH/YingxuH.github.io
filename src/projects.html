@@ -127,7 +127,7 @@
             He Yingxu
           </div>
           <ul class="sidebar-navigation">
-            <li class="header">Data Science</li>
+            <li class="header header-top">Data Science</li>
             <li class="header">Data Analytics</li>
             <li class="header">Software Engineering</li>
           </ul>
@@ -165,6 +165,39 @@
                 <div align="center">
                   <img class="screenshot"
                   src="https://raw.githubusercontent.com/YingxuH/DataSciencePosts/master/screenshot.png"
+                  onerror="this.onerror=null; this.src='../img/default_screenshot.png'">
+                </div>
+              </p>
+            </a>
+
+            <a href="https://github.com/YingxuH/DataSciencePosts/blob/master/src/Assignment2.ipynb" class="list-group-item list-group-item-action">
+              <h4 class="list-group-item-heading">
+                Loan Default Classification Task
+              </h4>
+              <p class="list-group=item-text">
+                <li>Given a data set of 3k entries including loan status and customer attributes, selected the 10 most important features using lasso regression. The selected attributes explain the same amount of variation as the full attributes do.</li>
+                <li>Compared the performance of XGBoost with baseline models like random forest, and identified it as the most effective performer. Tuned the hyper-parameters of XGBoost through both manual and automatic tuning (e.g. Bayesian Optimization and Genetic Algorithm) to achieve an accuracy of 0.924 and a Matthew Correlation Coefficient of 0.901. Experimented ensemble methods such as stacking, majority voting, etc. </li>
+                <br>
+                <div align="center">
+                  <img class="screenshot"
+                  src="https://raw.githubusercontent.com/YingxuH/DataSciencePosts/master/screenshot.png"
+                  onerror="this.onerror=null; this.src='../img/default_screenshot.png'">
+                </div>
+              </p>
+            </a>
+
+            <a href="#" class="list-group-item list-group-item-action">
+              <h4 class="list-group-item-heading">
+                Stock Value Prediction Project
+              </h4>
+              <p class="list-group=item-text">
+                <li>Given over 10 years’ price data of 88 futures provided by Quantiacs, we tested ARIMA, SVM, Holt-Winters, and RNN on their ability to predict next-day’s price, and recognized RNN as the best performer.</li>
+                <li>Implemented RNN using Keras, with 3 LSTM layers (100 hidden nodes and softsign activation function) and binary cross-entropy loss function. It was trained on 2 years’ historical data and achieved a Sharpe Ratio of 2.23 in a period of 4 months from 07/01/2019 to 08/04/2019. </li>
+                <li>Separated 20% training data as the validation data and tuned the hyperparameters such as the level of regularization and number of epochs. L1 and L2 regularization were added and the number of epochs was reduced from 100 to 60 to prevent overfitting.</li>
+                <br>
+                <div align="center">
+                  <img class="screenshot"
+                  src="#"
                   onerror="this.onerror=null; this.src='../img/default_screenshot.png'">
                 </div>
               </p>

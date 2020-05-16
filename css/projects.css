@@ -2,6 +2,13 @@ a {
   color: black;
 }
 
+.list-group-item {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #E9EBEE;
+  margin-bottom: 10px;
+}
+
 .main {
   height: 100%;
   width: 70%;
@@ -44,10 +51,12 @@ a {
   font-size: 16px;
   text-transform: uppercase;
   padding: 10px 15px 10px 30px;
+}
+
+.header-top {
   border-top-style: solid;
   border-width: 2px;
   border-color: #E9EBEE;
-  border
 }
 
 .sidebar-container {
